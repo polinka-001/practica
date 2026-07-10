@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+const long long MOD = 1000000007LL;
+ 
+long long mod_pow(long long a, long long b) {
+    long long res = 1;
+    a %= MOD;
+    while (b) {
+        if (b & 1) res = res * a % MOD;
+        a = a * a % MOD;
+        b >>= 1;
+    }
+    return res;
+}
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int T;
+    cin >> T;
+    
+    while (T--) {
+        long long b1, q, n;
+        cin >> b1 >> q >> n;
+        
+        if (q == 1) {
+            cout << (b1 % MOD) * (n % MOD) % MOD << "\n";
+        } else {
+            long long numerator = (mod_pow(q, n) - 1 + MOD) % MOD;
+            long long denominator = (q - 1 + MOD) % MOD;
+            long long ans = (b1 % MOD) * numerator % MOD;
+            ans = ans * mod_pow(denominator, MOD - 2) % MOD;
+            cout << ans << "\n";
+        }
+    }
+    
+    return 0;
+}
