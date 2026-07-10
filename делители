@@ -1,0 +1,64 @@
+От Филатова Полина Александровна М8О-107БВ-25, соревнование: Теория чисел [5], задача: (F) Делители, Полное решение, #, Скопировать
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    cin >> n;
+    
+    vector<int> cnt(8, 0);
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        cnt[x]++;
+    }
+    
+    if (cnt[5] > 0 || cnt[7] > 0) {
+        cout << -1 << "\n";
+        return 0;
+    }
+    
+    vector<tuple<int, int, int>> ans;
+    
+    int c124 = cnt[4];
+    if (cnt[1] < c124 || cnt[2] < c124) {
+        cout << -1 << "\n";
+        return 0;
+    }
+    cnt[1] -= c124;
+    cnt[2] -= c124;
+    cnt[4] -= c124;
+    for (int i = 0; i < c124; i++) {
+        ans.push_back({1, 2, 4});
+    }
+    
+    int c136 = cnt[3];
+    if (cnt[1] < c136 || cnt[6] < c136) {
+        cout << -1 << "\n";
+        return 0;
+    }
+    cnt[1] -= c136;
+    cnt[3] -= c136;
+    cnt[6] -= c136;
+    for (int i = 0; i < c136; i++) {
+        ans.push_back({1, 3, 6});
+    }
+    
+    int c126 = cnt[6];
+    if (cnt[1] != c126 || cnt[2] != c126) {
+        cout << -1 << "\n";
+        return 0;
+    }
+    for (int i = 0; i < c126; i++) {
+        ans.push_back({1, 2, 6});
+    }
+    
+    for (auto [a, b, c] : ans) {
+        cout << a << " " << b << " " << c << "\n";
+    }
+    
+    return 0;
+}
