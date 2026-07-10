@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    long long omega;
+    cin >> n >> omega;
+    
+    vector<pair<long long, int>> holes(n);
+    for (int i = 0; i < n; i++) {
+        cin >> holes[i].first;
+        holes[i].second = i + 1;
+    }
+    
+    sort(holes.begin(), holes.end());
+    
+    vector<int> order;
+    long long current = omega;
+    int ptr = 0;
+    
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> canAbsorb;
+    
+    while (ptr < n && holes[ptr].first < current) {
+        canAbsorb.push(holes[ptr]);
+        ptr++;
+    }
+    
+    while (!canAbsorb.empty() || ptr < n) {
+        if (!canAbsorb.empty()) {
+            auto [size, idx] = canAbsorb.top();
+            canAbsorb.pop();
+            current += size;
+            order.push_back(idx);
+            
+            while (ptr < n && holes[ptr].first < current) {
+                canAbsorb.push(holes[ptr]);
+                ptr++;
+            }
+        } else {
+            cout << "NO\n";
+            return 0;
+        }
+    }
+    
+    cout << "YES\n";
+    for (int idx : order) {
+        cout << idx << " ";
+    }
+    cout << "\n";
+    
+    return 0;
+}
