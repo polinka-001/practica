@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+const int INF = 1e9;
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int N;
+    cin >> N;
+    
+    vector<int> dp(N + 1, INF);
+    dp[1] = 0;
+    
+    for (int i = 2; i <= N; i++) {
+        dp[i] = i + dp[i - 1];
+        
+        if (i % 2 == 0) {
+            dp[i] = min(dp[i], i + dp[i / 2]);
+        }
+        if (i % 3 == 0) {
+            dp[i] = min(dp[i], i + dp[i / 3]);
+        }
+    }
+    
+    cout << dp[N] << "\n";
+    
+    return 0;
+}
