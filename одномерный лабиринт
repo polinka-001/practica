@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    cin >> n;
+    
+    vector<long long> danger(n);
+    for (int i = 0; i < n; i++) {
+        cin >> danger[i];
+    }
+    
+    sort(danger.begin(), danger.end());
+    
+    int q;
+    cin >> q;
+    
+    while (q--) {
+        long long s, f;
+        cin >> s >> f;
+        
+        if (s == f) {
+            cout << 0 << "\n";
+            continue;
+        }
+        
+        long long l = min(s, f);
+        long long r = max(s, f);
+        
+        int left = upper_bound(danger.begin(), danger.end(), l) - danger.begin();
+        int right = lower_bound(danger.begin(), danger.end(), r) - danger.begin();
+        
+        cout << right - left << "\n";
+    }
+    
+    return 0;
+}
