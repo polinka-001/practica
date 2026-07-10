@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    cin >> n;
+    
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    
+    long long max_sum = LLONG_MIN;
+    long long cur_sum = 0;
+    int best_l = 0, best_r = 0;
+    int cur_l = 0;
+    bool has_profit = false;
+    
+    for (int i = 0; i < n; i++) {
+        if (cur_sum < 0) {
+            cur_sum = 0;
+            cur_l = i;
+        }
+        cur_sum += a[i];
+        
+        if (cur_sum > max_sum) {
+            max_sum = cur_sum;
+            best_l = cur_l;
+            best_r = i;
+            has_profit = true;
+        }
+    }
+    
+    if (!has_profit || max_sum <= 0) {
+        cout << "-1 -1\n";
+    } else {
+        cout << best_l + 1 << " " << best_r + 2 << "\n";
+    }
+    
+    return 0;
+}
