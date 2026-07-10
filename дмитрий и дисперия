@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int T;
+    cin >> T;
+    
+    while (T--) {
+        int n;
+        cin >> n;
+        
+        unordered_map<long long, int> last_pos;
+        last_pos.reserve(n * 2);
+        
+        int left = 0;
+        int max_len = 0;
+        
+        for (int right = 0; right < n; right++) {
+            long long x;
+            cin >> x;
+            
+            auto it = last_pos.find(x);
+            if (it != last_pos.end() && it->second >= left) {
+                left = it->second + 1;
+            }
+            last_pos[x] = right;
+            
+            max_len = max(max_len, right - left + 1);
+        }
+        
+        cout << max_len << "\n";
+    }
+    
+    return 0;
+}
