@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+const long long MOD = 1000000007LL;
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int l, r;
+    cin >> l >> r;
+    
+    vector<long long> dp(r + 1, 0);
+    
+    for (int i = r; i >= 1; i--) {
+        if (i >= l) dp[i] = 1;
+        
+        for (int j = 2 * i; j <= r; j += i) {
+            dp[i] = (dp[i] + dp[j]) % MOD;
+        }
+    }
+    
+    cout << dp[1] << "\n";
+    
+    return 0;
+}
