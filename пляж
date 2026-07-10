@@ -1,0 +1,40 @@
+#include <iostream>
+ 
+using namespace std;
+using ll = long long;
+ 
+ll count_upto(ll S, ll n) {
+    return 2 * S * (S + 2 * n - 1);
+}
+ 
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+ 
+    ll n, k;
+    cin >> n >> k;
+ 
+    if (k == 0) {
+        cout << 0 << '\n';
+        return 0;
+    }
+ 
+    ll S = 1;
+    while (count_upto(S, n) < k) ++S;
+ 
+    ll prev = (S == 1 ? 0 : count_upto(S - 1, n));
+    ll need = k - prev;
+ 
+    ll sum_full = 0;
+    if (S > 1) {
+        ll m = S - 1;
+        ll sum_t2 = m * (m + 1) * (2 * m + 1) / 6;
+        ll sum_t = m * (m + 1) / 2;
+        sum_full = 4 * (sum_t2 + (n - 1) * sum_t);
+    }
+ 
+    ll ans = sum_full + S * need;
+    cout << ans << '\n';
+ 
+    return 0;
+}
