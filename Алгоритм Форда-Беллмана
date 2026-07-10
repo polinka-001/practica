@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+const long long INF = 1e18;
+ 
+struct Edge {
+    int to;
+    long long w;
+};
+ 
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m, s;
+    cin >> n >> m >> s;
+    
+    vector<tuple<int, int, long long>> edges(m);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        long long w;
+        cin >> u >> v >> w;
+        edges[i] = {u, v, w};
+    }
+    
+    vector<long long> dist(n + 1, INF);
+    dist[s] = 0;
+    
+    for (int i = 0; i < n - 1; i++) {
+        bool changed = false;
+        for (auto [u, v, w] : edges) {
+            if (dist[u] != INF && dist[v] > dist[u] + w) {
+                dist[v] = dist[u] + w;
+                changed = true;
+            }
+        }
+        if (!changed) break;
+    }
+    
+    vector<int> neg_cycle(n + 1, 0);
+    for (auto [u, v, w] : edges) {
+        if (dist[u] != INF && dist[v] > dist[u] + w) {
+            neg_cycle[v] = 1;
+        }
+    }
+    
+    for (int i = 0; i < n; i++) {
+        for (auto [u, v, w] : edges) {
+            if (neg_cycle[u]) {
+                neg_cycle[v] = 1;
+            }
+        }
+    }
+    
+    for (int i = 1; i <= n; i++) {
+        if (neg_cycle[i] && dist[i] != INF) {
+            cout << "Negative cycle\n";
+            return 0;
+        }
+    }
+    
+    for (int i = 1; i <= n; i++) {
+        if (dist[i] == INF) {
+            cout << "inf ";
+        } else {
+            cout << dist[i] << " ";
+        }
+    }
+    cout << "\n";
+    
+    return 0;
+}
